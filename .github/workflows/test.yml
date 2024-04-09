@@ -29,20 +29,15 @@ jobs:
       with:
         go-version: ${{ matrix.version }}
 
-    - name: Enter ${{ matrix.mod-dir }} dir
-      run: |
-        pwd 
-        cd ${{ matrix.mod-dir }}
-        pwd 
-
     - name: Build
       run: |
         cd ${{ matrix.mod-dir }}
-        pwd 
         go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: |
+        cd ${{ matrix.mod-dir }}
+        go test -v ./...
 
     - name: Update coverage report
       if: |
