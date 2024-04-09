@@ -34,7 +34,7 @@ jobs:
       - name: Generate coverage JSON
         run: |
           cd ${{ matrix.mod-dir }}
-          JSON_FILE"=${{ env.date_now }}-${{ env.commit_hash_short }}.json"
+          JSON_FILE="${{ env.date_now }}-${{ env.commit_hash_short }}.json"
           #go test -v -cover -coverprofile=cover.out ./... | tee tests.out
           #grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
           #sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
