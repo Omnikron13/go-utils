@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "stable"
-<<<<<<< HEAD
+
       - name: Generate coverage JSON
         run: |
           cd ${{ matrix.mod-dir }}
