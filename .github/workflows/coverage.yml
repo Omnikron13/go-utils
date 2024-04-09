@@ -43,7 +43,7 @@ jobs:
 
       - name: Read back JSON
         run: |
-          JSON_FILE="/tmp/${{ env.date_now }}-${{ env.commit_hash_short }}.json"
+          JSON_FILE="/tmp/${{ env.commit_hash }}.json"
           echo $JSON_FILE
           cat $JSON_FILE
 
