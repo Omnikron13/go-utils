@@ -40,7 +40,7 @@ jobs:
           echo ${{ env.json_percent_file }}
           RAW_COVERAGE_PERCENT="$(go test -cover -coverprofile=profile.out ./... | tail -1)"
           echo $RAW_COVERAGE_PERCENT
-          echo $RAW_COVERAGE_PERCENT | sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/' > ${{ env.json_percent_file }}
+          echo $RAW_COVERAGE_PERCENT | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash}}\",\"pkg\":\"\1\",\"coverage\":\2}/" > ${{ env.json_percent_file }}
           pwd
           echo ${{ env.tmp_wiki_dir }}
           echo ${{ env.json_percent_file }}
