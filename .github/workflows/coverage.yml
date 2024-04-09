@@ -34,7 +34,6 @@ jobs:
       - name: Generate coverage JSON
         run: |
           cd ${{ matrix.mod-dir }}
-
           date_now="$(date +%Y%m%d%H%M)"
 
           coverage_percent_json_file="${date_now}-${{ env.commit_hash_short }}.json"
