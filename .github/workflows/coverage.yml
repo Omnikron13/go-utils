@@ -22,6 +22,7 @@ jobs:
     env:
       commit_hash: $GITHUB_SHA
       commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
+      json_output_file: "$(date +%Y%m%d%H%M%S)-${{env.commit_hash_short}}.json"
 
     runs-on: 'ubuntu-latest'
 
@@ -36,25 +37,18 @@ jobs:
           #go test -v -cover -coverprofile=cover.out ./... | tee tests.out
           #grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
           #sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
-          JSON_OUTPUT_FILE="$(date +%Y%m%d%H%M%S)-${{env.commit_hash_short}}.json"
-          echo $JSON_OUTPUT_FILE
           go test -cover -coverprofile=profile.out ./... |
           tail -1 |
-          sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/' > "$JSON_OUTPUT_FILE"
+          sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/' > ${{env.json_output_file}}
           ls
-          cat $JSON_OUTPUT_FILE
+          cat ${{ env.json_output_file }}
           cat profile.out
 
       - name: Test artifact
         uses: actions/upload-artifact@v4
         with:
-          # Name of the artifact to upload.
-          # Optional. Default is 'artifact'
           name: ${{ env.commit_hash }}
-
-          # A file, directory or wildcard pattern that describes what to upload
-          # Required.
-          path: $JSON_OUTPUT_FILE
+          path: ${{ env.json_output_file }}
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
