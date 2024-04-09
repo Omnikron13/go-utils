@@ -6,7 +6,8 @@ on:
       - "main"
       - "staging"
   pull_request:
-    branches: [ "main" ]
+      - "main"
+      - "staging"
 
 jobs:
 
