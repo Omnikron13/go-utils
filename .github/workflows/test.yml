@@ -6,10 +6,7 @@ on:
       - "main"
       - "staging"
   pull_request:
-<<<<<<< HEAD
     branches:
-=======
->>>>>>> 17382e8 (ci: update pull_requests matrix to single lines, add staging)
       - "main"
       - "staging"
 
@@ -32,8 +29,12 @@ jobs:
       with:
         go-version: ${{ matrix.version }}
 
+    - name: Enter ${{ matrix.mod-dir }} dir
+      run: cd ${{ matrix.mod-dir }}
+
+    - name: Build
+      run: go build -v ./...
+
     - name: Test
-      run: |
-        cd ${{ matrix.mod-dir }}
-        go test -v ./...
+      run: go test -v ./...
 
