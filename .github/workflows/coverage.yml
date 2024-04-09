@@ -18,10 +18,13 @@ jobs:
       matrix:
         mod-dir:
           - maths
-    runs-on: ubuntu-latest
+
     env:
       commit_hash: $GITHUB_SHA
       commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
+
+    runs-on: 'ubuntu-latest'
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
