@@ -35,8 +35,10 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
           tmp_wiki_dir="$(mktemp --directory /tmp/wiki.XXXXXXXX)"
-          json_percent_file="${{ env.commit_hash }}.json"
+          date_now="$(date +%Y%m%d%H%M%S)"
+          json_percent_file="${date_now}-${{ env.commit_hash_short }}.json"
           raw_coverage_percent="$(go test -cover -coverprofile=profile.out ./... | tail -1)"
+          echo "::debug::profile: $(cat profile.out)"
           echo "::debug::tmp_wiki_dir: $tmp_wiki_dir"
           echo "::debug::json_percent_file: $json_percent_file"
           echo "::debug::raw_coverage_percent: $raw_coverage_percent"
