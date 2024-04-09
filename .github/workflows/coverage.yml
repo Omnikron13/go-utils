@@ -35,12 +35,10 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
           JSON_FILE="${{ env.date_now }}-${{ env.commit_hash_short }}.json"
-          #go test -v -cover -coverprofile=cover.out ./... | tee tests.out
-          #grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
-          #sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
-          go test -cover -coverprofile=profile.out ./... |
-          tail -1 |
-          sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/' > $JSON_FILE
+          go test -cover -coverprofile=profile.out ./...
+            | tail -1
+            | sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/'
+            > $JSON_FILE
           cat $JSON_FILE
           cat profile.out
 
