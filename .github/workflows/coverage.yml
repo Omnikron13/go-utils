@@ -35,7 +35,10 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
           echo "::debug::env: $GITHUB_ENV"
+          wiki_dir="$(mktemp --directory /tmp/wiki.XXXXXXXX)"
+          echo "::debug::wiki_dir: $wiki_dir"
           echo "tmp_wiki_dir=$(mktemp --directory /tmp/wiki.XXXXXXXX)" >> "$GITHUB_ENV"
+          echo "::debug::env: $GITHUB_ENV"
           echo "json_percent_file=$tmp_wiki_dir/${{ env.commit_hash }}.json" >> "$GITHUB_ENV"
           printf 'tmp_wiki_dir: %s\n' "$tmp_wiki_dir"
           printf 'json_percent_file: %s\n' "$json_percent_file"
