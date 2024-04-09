@@ -35,8 +35,8 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
           TMP_DIR=`mktemp --directory /tmp/wiki.XXXXXXXX`
-          echo "::set-env name=TMP_WIKI_DIR::$(mktemp --directory /tmp/wiki.XXXXXXXX)"
-          echo ${{ env.TMP_WIKI_DIR }}
+          echo "tmp_wiki_dir=$(mktemp --directory /tmp/wiki.XXXXXXXX)/" >> "$GITHUB_ENV"
+          echo ${{ env.tmp_wiki_dir }}
           echo $TMP_DIR
           JSON_FILE="/tmp/${{ env.commit_hash }}.json"
           RAW_COVERAGE_PERCENT="$(go test -cover -coverprofile=profile.out ./... | tail -1)"
