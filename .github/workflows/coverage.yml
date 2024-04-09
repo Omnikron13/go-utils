@@ -42,6 +42,7 @@ jobs:
           > "$(date +%Y%m%d%H%M%S)-${{env.commit_hash_short}}.json"
           ls
           cat *.json
+          cat profile.out
 
       - name: Update coverage report
         uses: ncruces/go-coverage-report@v0
