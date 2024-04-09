@@ -38,6 +38,15 @@ jobs:
         go build -v ./...
 
     - name: Test
+      if: |
+        matrix.os != 'ubuntu-latest' ||
+        matrix.version != 'stable' ||
+        github.event_name != 'push'
+      run: |
+        cd ${{ matrix.mod-dir }}
+        go test -v ./...
+
+    - name: Test & coverage
       run: |
         cd ${{ matrix.mod-dir }}
         go test -v -cover -coverprofile=cover.out ./... | tee tests.out
