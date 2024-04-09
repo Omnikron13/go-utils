@@ -36,10 +36,10 @@ jobs:
           cd ${{ matrix.mod-dir }}
           echo "tmp_wiki_dir=$(mktemp --directory /tmp/wiki.XXXXXXXX)" >> "$GITHUB_ENV"
           echo "json_percent_file=$tmp_wiki_dir/${{ env.commit_hash }}.json" >> "$GITHUB_ENV"
-          printf '%s\n' "$tmp_wiki_dir"
-          printf '%s\n' "$json_percent_file"
+          printf 'tmp_wiki_dir: %s\n' "$tmp_wiki_dir"
+          printf 'json_percent_file: %s\n' "$json_percent_file"
           echo "raw_coverage_percent=$(go test -cover -coverprofile=profile.out ./... | tail -1)" >> "$GITHUB_ENV"
-          printf '%s\n' "$raw_coverage_percent"
+          printf 'raw_coverage_percent: %s\n' "$raw_coverage_percent"
           echo $raw_coverage_percent | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash}}\",\"pkg\":\"\1\",\"coverage\":\2}/" #> $json_percent_file
 
       - name: Read back JSON
