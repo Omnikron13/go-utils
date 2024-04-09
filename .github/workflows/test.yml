@@ -48,6 +48,7 @@ jobs:
         matrix.version == 'stable' &&
         github.event_name == 'push'
       run: |
+        cd ${{ matrix.mod-dir }}
         grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
         sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
 
