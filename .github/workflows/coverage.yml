@@ -39,6 +39,9 @@ jobs:
           go test -cover -coverprofile=profile.out ./... |
           tail -1 |
           sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/'
+          > "$(date +%Y%m%d%H%M%S)-${{env.commit_hash_short}}.json"
+          ls
+          cat *.json
 
       - name: Update coverage report
         uses: ncruces/go-coverage-report@v0
