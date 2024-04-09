@@ -34,8 +34,6 @@ jobs:
 
     - name: Build
       run: |
-        echo "Commit hash: ${{ env.commit_hash }}"
-        echo "Commit hash short: ${{ env.commit_hash_short }}"
         cd ${{ matrix.mod-dir }}
         go build -v ./...
 
