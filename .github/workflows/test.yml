@@ -6,7 +6,10 @@ on:
       - "main"
       - "staging"
   pull_request:
+<<<<<<< HEAD
     branches:
+=======
+>>>>>>> 17382e8 (ci: update pull_requests matrix to single lines, add staging)
       - "main"
       - "staging"
 
