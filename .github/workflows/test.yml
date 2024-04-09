@@ -20,9 +20,6 @@ jobs:
         mod-dir:
           - maths
     runs-on: ${{ matrix.os }}
-    env:
-      commit_hash: $GITHUB_SHA
-      commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
 
     steps:
     - uses: actions/checkout@v4
@@ -32,28 +29,8 @@ jobs:
       with:
         go-version: ${{ matrix.version }}
 
-    - name: Build
-      run: |
-        cd ${{ matrix.mod-dir }}
-        go build -v ./...
-
     - name: Test
-      if: |
-        matrix.os != 'ubuntu-latest' ||
-        matrix.version != 'stable' ||
-        github.event_name != 'push'
       run: |
         cd ${{ matrix.mod-dir }}
         go test -v ./...
-
-    - name: Test & coverage
-      if: |
-        matrix.os == 'ubuntu-latest' &&
-        matrix.version == 'stable' &&
-        github.event_name == 'push'
-      run: |
-        cd ${{ matrix.mod-dir }}
-        go test -v -cover -coverprofile=cover.out ./... | tee tests.out
-        grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
-        sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
 
