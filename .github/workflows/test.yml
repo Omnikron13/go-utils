@@ -1,4 +1,4 @@
-name: Run Go integration tests
+name: Tests
 
 on:
   push:
