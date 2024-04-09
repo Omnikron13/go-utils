@@ -36,8 +36,8 @@ jobs:
         pwd 
 
     - name: Build
-      run: cd ${{ matrix.mod-dir }}
       run: |
+        cd ${{ matrix.mod-dir }}
         pwd 
         go build -v ./...
 
