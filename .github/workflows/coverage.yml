@@ -34,7 +34,7 @@ jobs:
       - name: Generate coverage JSON
         run: |
           cd ${{ matrix.mod-dir }}
-          JSON_FILE="/tmp/${{ env.date_now }}-${{ env.commit_hash_short }}.json"
+          JSON_FILE="/tmp/${{ env.commit_hash }}.json"
           go test -cover -coverprofile=profile.out ./... | tail -1 | sed -r 's/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{"commit":"'${{env.commit_hash}}'","pkg":"\1","coverage":\2}/' > $JSON_FILE
           pwd
           echo $JSON_FILE
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.commit_hash }}
-          path: "/tmp/${{ env.date_now }}-${{ env.commit_hash_short }}.json"
+          path: "/tmp/${{ env.commit_hash }}.json"
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
