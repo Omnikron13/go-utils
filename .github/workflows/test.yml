@@ -33,8 +33,6 @@ jobs:
         go-version: ${{ matrix.version }}
 
     - name: Build
-      env:
-        git_hash: $(git rev-parse --short "$GITHUB_SHA")
       run: |
         echo "Commit hash: ${{ env.commit_hash }}"
         echo "Commit hash short: ${{ env.commit_hash_short }}"
