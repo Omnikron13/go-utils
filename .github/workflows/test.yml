@@ -39,17 +39,13 @@ jobs:
         go test -v ./...
 
     - name: Test & coverage
-      run: |
-        cd ${{ matrix.mod-dir }}
-        go test -v -cover -coverprofile=cover.out ./... | tee tests.out
-
-    - name: Generate coverage JSON
       if: |
         matrix.os == 'ubuntu-latest' &&
         matrix.version == 'stable' &&
         github.event_name == 'push'
       run: |
         cd ${{ matrix.mod-dir }}
+        go test -v -cover -coverprofile=cover.out ./... | tee tests.out
         grep -P 'ok.+coverage:.+of statements' tests.out > tests_coverage.out
         sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/" < tests_coverage.out > "${{ env.commit_hash }}.json"
 
