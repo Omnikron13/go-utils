@@ -20,9 +20,9 @@ jobs:
           - maths
 
     env:
-      commit_hash: $GITHUB_SHA
-      commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
-      date_now: $(date +%Y%m%d%H%M%S)
+      commit_hash: "${GITHUB_SHA}"
+      commit_hash_short: "$(git rev-parse --short ${GITHUB_SHA})"
+      date_now: "$(date +%Y%m%d%H%M%S)"
 
     runs-on: 'ubuntu-latest'
 
