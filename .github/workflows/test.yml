@@ -24,6 +24,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set env
+      env: git_hash=$(git rev-parse --short "$GITHUB_SHA")
+
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
@@ -31,6 +34,7 @@ jobs:
 
     - name: Build
       run: |
+        echo "Git hash: ${{ env.git_hash }}"
         cd ${{ matrix.mod-dir }}
         go build -v ./...
 
