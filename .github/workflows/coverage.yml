@@ -22,6 +22,7 @@ jobs:
     env:
       commit_hash: $GITHUB_SHA
       commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
+    env:
       json_output_file: $(date +%Y%m%d%H%M%S)-${{ env.commit_hash_short }}.json
 
     runs-on: 'ubuntu-latest'
