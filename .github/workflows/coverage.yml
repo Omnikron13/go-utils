@@ -35,7 +35,7 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
           echo "tmp_wiki_dir=$(mktemp --directory /tmp/wiki.XXXXXXXX)" >> "$GITHUB_ENV"
-          echo "json_percent_file=${{ env.tmp_wiki_dir)/${{ env.commit_hash }}.json" >> "$GITHUB_ENV"
+          echo "json_percent_file=${{ env.tmp_wiki_dir }}/${{ env.commit_hash }}.json" >> "$GITHUB_ENV"
           echo ${{ env.tmp_wiki_dir }}
           echo ${{ env.json_percent_file }}
           RAW_COVERAGE_PERCENT="$(go test -cover -coverprofile=profile.out ./... | tail -1)"
