@@ -21,8 +21,8 @@ jobs:
           - maths
     runs-on: ${{ matrix.os }}
     env:
-      commit_hash: $(git rev-parse "$GITHUB_SHA")
-      github_sha: $GITHUB_SHA
+      commit_hash: $GITHUB_SHA
+      commit_hash_short: $(git rev-parse --short "$GITHUB_SHA")
 
     steps:
     - uses: actions/checkout@v4
@@ -36,9 +36,8 @@ jobs:
       env:
         git_hash: $(git rev-parse --short "$GITHUB_SHA")
       run: |
-        echo "GitHub sha: ${{ env.github_sha }}"
-        echo "Git hash: ${{ env.git_hash }}"
         echo "Commit hash: ${{ env.commit_hash }}"
+        echo "Commit hash short: ${{ env.commit_hash_short }}"
         cd ${{ matrix.mod-dir }}
         go build -v ./...
 
