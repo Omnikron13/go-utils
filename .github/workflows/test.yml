@@ -32,5 +32,6 @@ jobs:
     - name: Test
       run: |
         cd ${{ matrix.mod-dir }}
-        go test -v ./...
+        go test -v -cover -coverprofile=cover.out ./... | tee tests.out
+        grep -P 'ok.+coverage:.+of statements' tests.out | sed -r "s/ok\s+(.+)\s+.+coverage:\s+([0-9]+\.[0-9]).+/{\"commit\":\"${{ env.commit_hash }}\",\"mod\":\"\1\",\"coverage\":\2}/"
 
