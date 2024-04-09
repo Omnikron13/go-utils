@@ -34,6 +34,10 @@ jobs:
       - name: Generate coverage JSON
         run: |
           cd ${{ matrix.mod-dir }}
+          TMP_DIR=`mktemp --directory /tmp/wiki.XXXXXXXX`
+          echo "::set-env name=TMP_WIKI_DIR::$(mktemp --directory /tmp/wiki.XXXXXXXX)"
+          echo ${{ env.TMP_WIKI_DIR }}
+          echo $TMP_DIR
           JSON_FILE="/tmp/${{ env.commit_hash }}.json"
           RAW_COVERAGE_PERCENT="$(go test -cover -coverprofile=profile.out ./... | tail -1)"
           echo $RAW_COVERAGE_PERCENT
