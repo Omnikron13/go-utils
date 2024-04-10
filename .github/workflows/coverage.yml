@@ -1,0 +1,70 @@
+name: Coverage 
+
+on:
+  push:
+    branches:
+      - "main"
+      - "staging"
+  pull_request:
+    branches:
+      - "main"
+      - "staging"
+
+jobs:
+
+  Coverage:
+    strategy:
+      matrix:
+        mod-dir:
+          - maths
+
+    env:
+      commit_hash: "${GITHUB_SHA}"
+      commit_hash_short: "$(git rev-parse --short ${GITHUB_SHA})"
+      date_now: "$(date +%Y%m%d%H%M%S)"
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+      - name: Generate coverage JSON
+        run: |
+          cd ${{ matrix.mod-dir }}
+
+          date_now="$(date +%Y%m%d%H%M)"
+
+          coverage_percent_json_file="${date_now}-${{ env.commit_hash_short }}.json"
+          coverage_profile_raw_file="${date_now}-${{ env.commit_hash_short }}.profile.raw"
+
+          coverage_percent_raw="$(go test -cover -coverprofile=${coverage_profile_raw_file} ./... | tail -1)"
+
+          echo $coverage_percent_raw | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/" > $coverage_percent_json_file
+          coverage_percent_json=$(echo $coverage_percent_raw | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/")
+          echo $coverage_percent_json > $coverage_percent_json_file
+
+          wiki_repo_dir=$(mktemp -d)
+          git clone "https://x:${{ github.token }}@github.com/${{ github.repository }}.wiki.git" "$wiki_repo_dir" --depth 1
+
+          data_dir="${wiki_repo_dir}/.data"
+          coverage_dir="${data_dir}/coverage"
+
+          mkdir -p $coverage_dir
+
+          cp $coverage_percent_json_file "$coverage_dir/"
+          cp $coverage_profile_raw_file "$coverage_dir/"
+
+          cd "$wiki_repo_dir"
+
+          git config user.name github-actions[bot]
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add -Av
+          git commit --allow-empty -m "Add coverage data files for commit ${{ env.commit_hash_short }}"
+          git push origin master
+
+          echo "::notice:: Added https://github.com/${{ github.repository }}/wiki/.data/coverage/$coverage_percent_json_file"
+          echo "::notice:: Added https://github.com/${{ github.repository }}/wiki/.data/coverage/$coverage_profile_raw_file"
+

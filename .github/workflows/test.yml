@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - "main"
+      - "staging"
+  pull_request:
+    branches:
+      - "main"
+      - "staging"
+
+jobs:
+
+  Tests:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        version: [ 'stable', 'oldstable' ]
+        mod-dir:
+          - maths
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ matrix.version }}
+
+    - name: Test
+      run: |
+        cd ${{ matrix.mod-dir }}
+        go test -v ./...
+
