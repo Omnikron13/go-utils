@@ -50,6 +50,10 @@ jobs:
 
           cp $raw_coverage_profile "${tmp_wiki_dir}/${raw_coverage_profile}"
 
+          mkdir ${{ env.commit_hash }}
+          cp $json_percent_file ${{ env.commit_hash }}/
+          cp $raw_coverage_profile ${{ env.commit_hash }}/
+
           echo "::debug::tmp_wiki_dir contents: \n$(ls $tmp_wiki_dir)"
 
       - name: Read back JSON
@@ -62,8 +66,8 @@ jobs:
       - name: Test artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.commit_hash }}
-          path: "${tmp_wiki_dir}/${json_percent_file}"
+          name: ${{ env.commit_hash_short }}
+          path: ${{ env.commit_hash }} #"${tmp_wiki_dir}/${json_percent_file}"
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
