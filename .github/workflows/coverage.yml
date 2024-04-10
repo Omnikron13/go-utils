@@ -37,6 +37,8 @@ jobs:
           json_percent_file="${date_now}-${{ env.commit_hash_short }}.json"
           raw_coverage_profile="${date_now}-${{ env.commit_hash }}.profile"
           raw_coverage_percent="$(go test -cover -coverprofile=${raw_coverage_profile} ./... | tail -1)"
+          tmp_dir="${{ env.commit_hash }}"
+          echo "::debug::tmp_dir: $tmp_dir"
           echo "::debug::json_percent_file: $json_percent_file"
           echo "::debug::raw_coverage_percent: $raw_coverage_percent"
           echo "::debug::raw_coverage_profile: $raw_coverage_profile)"
@@ -45,28 +47,27 @@ jobs:
           echo "raw_coverage_percent=$raw_coverage_percent" >> "$GITHUB_ENV"
           echo $raw_coverage_percent | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/" > $json_percent_file
 
-          mkdir ${{ env.commit_hash }}
-          cp $json_percent_file ${{ env.commit_hash }}/
-          cp $raw_coverage_profile ${{ env.commit_hash }}/
+          mkdir $tmp_dir
+          cp $json_percent_file "$tmp_dir/"
+          cp $raw_coverage_profile "$tmp_dir/"
 
-          artifact_dir=${{ env.commit_hash }}
-          echo "::debug::artifact_dir: $artifact_dir"
-          echo "::debug::artifact_dir ls: $(ls $artifact_dir)"
-          echo "artifact_dir=$artifact_dir" >> "$GITHUB_ENV"
+          echo "::debug::tmp_dir: $tmp_dir"
+          echo "::debug::tmp_dirls: $(ls $tmp_dir)"
+          echo "tmp_dir=$tmp_dir" >> "$GITHUB_ENV"
 
       - name: Read back JSON
         run: |
           printf 'json_percent_file: %s\n' "$json_percent_file"
           echo "::debug::pwd: $(pwd)"
           echo "::debug::working dir ls: $(ls)"
-          echo "::debug:::artifact_dir: $artifact_dir"
-          echo "::debug:::artifact_dir ls: $(ls ./$artifact_dir)"
+          echo "::debug:::tmp_dir: $tmp_dir"
+          echo "::debug:::tmp_dir ls: $(ls ./$tmp_dir)"
 
       - name: Test artifact
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.commit_hash_short }}"
-          path: $artifact_dir
+          path: $tmp_dir
             #"${tmp_wiki_dir}/${json_percent_file}"
 
           # The desired behavior if no files are found using the provided path.
