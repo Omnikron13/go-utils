@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.commit_hash }}
-          path: "$tmp_wiki_dir/$json_percent_file"
+          path: "${tmp_wiki_dir}/${json_percent_file}"
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
@@ -90,11 +90,11 @@ jobs:
           # Optional. Default is 'false'
           overwrite: false
 
-      - name: Update coverage report
-        uses: ncruces/go-coverage-report@v0
-        with:
-          report: true
-          chart: true
-          amend: true
-        continue-on-error: true
+      #- name: Update coverage report
+      #  uses: ncruces/go-coverage-report@v0
+      #  with:
+      #    report: true
+      #    chart: true
+      #    amend: true
+      #  continue-on-error: true
 
