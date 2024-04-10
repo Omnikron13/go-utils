@@ -69,12 +69,3 @@ jobs:
           git commit --allow-empty -m "Add coverage data files for commit ${{ env.commit_hash_short }}"
           git push origin master
 
-
-      - name: Read back JSON
-        run: |
-          printf 'json_percent_file: %s\n' "$json_percent_file"
-          echo "::debug::pwd: $(pwd)"
-          echo "::debug::working dir ls: $(ls)"
-          echo "::debug:::tmp_dir: $tmp_dir"
-          echo "::debug:::tmp_dir ls: $(ls ./$tmp_dir)"
-
