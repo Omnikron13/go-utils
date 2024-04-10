@@ -49,6 +49,8 @@ jobs:
           cp $json_percent_file ${{ env.commit_hash }}/
           cp $raw_coverage_profile ${{ env.commit_hash }}/
 
+          echo "artifact_dir=${{ env.commit_hash }}" >> "$GITHUB_ENV"
+
       - name: Read back JSON
         run: |
           printf 'json_percent_file: %s\n' "$json_percent_file"
@@ -58,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.commit_hash_short }}"
-          PAth: "${{ env.commit_hash }}" #"${tmp_wiki_dir}/${json_percent_file}"
+          PAth: "$artifact_dir" #"${tmp_wiki_dir}/${json_percent_file}"
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
