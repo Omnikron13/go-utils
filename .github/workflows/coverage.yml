@@ -54,10 +54,11 @@ jobs:
           echo "::debug::tmp_dir: $tmp_dir"
           echo "::debug::tmp_dirls: $(ls $tmp_dir)"
           echo "tmp_dir=$tmp_dir" >> "$GITHUB_ENV"
+          echo "::debug::github.repository: ${{ github.repository }}"
 
 
           tmp_wiki_dir=$(mktemp -d)
-          git clone "https://github.com/$GITHUB_REPOSITORY.wiki.git" "$tmp_wiki_dir" --depth 1
+          git clone "https://github.com/${{ github.repository }}.wiki.git" "$tmp_wiki_dir" --depth 1
 
           # Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
           # The magic "${var:?}" makes it error if the var is zero-length/null.
