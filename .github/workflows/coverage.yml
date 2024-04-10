@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.commit_hash_short }}"
-          PAth: "${artifact_dir}" #"${tmp_wiki_dir}/${json_percent_file}"
+          path: "${artifact_dir}" #"${tmp_wiki_dir}/${json_percent_file}"
 
           # The desired behavior if no files are found using the provided path.
           # Available Options:
