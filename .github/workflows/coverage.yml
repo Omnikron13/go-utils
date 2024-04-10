@@ -37,9 +37,6 @@ jobs:
 
           date_now="$(date +%Y%m%d%H%M)"
 
-          coverage_percent_json_file="${date_now}-${{ env.commit_hash_short }}.json"
-          coverage_profile_raw_file="${date_now}-${{ env.commit_hash_short }}.profile.raw"
-
           coverage_percent_raw="$(go test -cover -coverprofile=${coverage_profile_raw_file} ./... | tail -1)"
 
           echo $coverage_percent_raw | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/" > $coverage_percent_json_file
