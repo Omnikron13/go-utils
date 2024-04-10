@@ -38,11 +38,7 @@ jobs:
           raw_coverage_profile="${date_now}-${{ env.commit_hash }}.profile"
           raw_coverage_percent="$(go test -cover -coverprofile=${raw_coverage_profile} ./... | tail -1)"
           tmp_dir="${{ env.commit_hash }}"
-          echo "::debug::tmp_dir: $tmp_dir"
-          echo "::debug::json_percent_file: $json_percent_file"
-          echo "::debug::raw_coverage_percent: $raw_coverage_percent"
-          echo "::debug::raw_coverage_profile: $raw_coverage_profile)"
-          echo "::debug::raw_coverage_profile contents: \n$(cat $raw_coverage_profile)"
+
           echo "json_percent_file=$json_percent_file" >> "$GITHUB_ENV"
           echo "raw_coverage_percent=$raw_coverage_percent" >> "$GITHUB_ENV"
           echo $raw_coverage_percent | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/" > $json_percent_file
@@ -51,20 +47,16 @@ jobs:
           cp $json_percent_file "$tmp_dir/"
           cp $raw_coverage_profile "$tmp_dir/"
 
-          echo "::debug::tmp_dir: $tmp_dir"
-          echo "::debug::tmp_dirls: $(ls $tmp_dir)"
           echo "tmp_dir=$tmp_dir" >> "$GITHUB_ENV"
-          echo "::debug::github.server_url: ${{ github.server_url }}"
-          echo "::debug::github.repository: ${{ github.repository }}"
-
 
           tmp_wiki_dir=$(mktemp -d)
           git clone "https://x:${{ github.token }}@github.com/${{ github.repository }}.wiki.git" "$tmp_wiki_dir" --depth 1
 
           data_dir="${tmp_wiki_dir}/.data"
           coverage_dir="${data_dir}/coverage"
-          #mkdir "$tmp_wiki_dir/coverage"
+
           mkdir -p $coverage_dir
+
           cp $json_percent_file "$coverage_dir/"
           cp $raw_coverage_profile "$coverage_dir/"
 
@@ -75,7 +67,6 @@ jobs:
 
           git add -Av
           git commit --allow-empty -m "Add coverage data files for commit ${{ env.commit_hash_short }}"
-
           git push origin master
 
 
@@ -86,45 +77,4 @@ jobs:
           echo "::debug::working dir ls: $(ls)"
           echo "::debug:::tmp_dir: $tmp_dir"
           echo "::debug:::tmp_dir ls: $(ls ./$tmp_dir)"
-
-      - name: Test artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: "${{ env.commit_hash_short }}"
-          path: $tmp_dir
-            #"${tmp_wiki_dir}/${json_percent_file}"
-
-          # The desired behavior if no files are found using the provided path.
-          # Available Options:
-          #   warn: Output a warning but do not fail the action
-          #   error: Fail the action with an error message
-          #   ignore: Do not output any warnings or errors, the action does not fail
-          # Optional. Default is 'warn'
-          if-no-files-found: error
-
-          # Duration after which artifact will expire in days. 0 means using default retention.
-          # Minimum 1 day.
-          # Maximum 90 days unless changed from the repository settings page.
-          # Optional. Defaults to repository settings.
-          retention-days: 1
-
-          # The level of compression for Zlib to be applied to the artifact archive.
-          # The value can range from 0 to 9.
-          # For large files that are not easily compressed, a value of 0 is recommended for significantly faster uploads.
-          # Optional. Default is '6'
-          compression-level: 0
-
-          # If true, an artifact with a matching name will be deleted before a new one is uploaded.
-          # If false, the action will fail if an artifact for the given name already exists.
-          # Does not fail if the artifact does not exist.
-          # Optional. Default is 'false'
-          overwrite: false
-
-      #- name: Update coverage report
-      #  uses: ncruces/go-coverage-report@v0
-      #  with:
-      #    report: true
-      #    chart: true
-      #    amend: true
-      #  continue-on-error: true
 
