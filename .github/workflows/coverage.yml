@@ -55,6 +55,29 @@ jobs:
           echo "::debug::tmp_dirls: $(ls $tmp_dir)"
           echo "tmp_dir=$tmp_dir" >> "$GITHUB_ENV"
 
+
+          tmp_wiki_dir=$(mktemp -d)
+          git clone "https://github.com/$GITHUB_REPOSITORY.wiki.git" "$tmp_wiki_dir" --depth 1
+
+          # Hidden files (like .myfile.txt, .git/, or .gitignore) are NOT copied.
+          # The magic "${var:?}" makes it error if the var is zero-length/null.
+          #rm -rf "${tmp_dir:?}"/*
+          #cp -afv "$INPUT_PATH"/* "$tmp_dir"
+          mkdir "$tmp_wiki_dir/coverage"
+          cp $json_percent_file "$tmp_wiki_dir/coverage/"
+          cp $raw_coverage_profile "$tmp_wiki_dir/coverage/"
+
+          cd "$tmp_wiki_dir"
+
+          git config user.name github-actions[bot]
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add -Av
+          git commit --allow-empty -m "Add coverage data files for commit ${{ env.commit_hash_short }}"
+
+          git push origin master
+
+
       - name: Read back JSON
         run: |
           printf 'json_percent_file: %s\n' "$json_percent_file"
