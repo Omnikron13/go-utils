@@ -48,7 +48,7 @@ jobs:
           echo "raw_coverage_percent=$raw_coverage_percent" >> "$GITHUB_ENV"
           echo $raw_coverage_percent | sed -r "s/ok\s+(\S+).+coverage: ([0-9]{1,3}\.[0-9])%.+/{\"commit\":\"${{ env.commit_hash }}\",\"pkg\":\"\1\",\"coverage\":\2}/" > "$tmp_wiki_dir/$json_percent_file"
 
-          cp $raw_coverage_profile $tmp_wiki_dir/$raw_coverage_profile
+          cp $raw_coverage_profile "${tmp_wiki_dir}/${raw_coverage_profile}"
 
           echo "::debug::tmp_wiki_dir contents: \n$(ls $tmp_wiki_dir)"
 
