@@ -65,3 +65,6 @@ jobs:
           git commit --allow-empty -m "Add coverage data files for commit ${{ env.commit_hash_short }}"
           git push origin master
 
+          echo "::notice:: Added https://github.com/${{ github.repository }}/wiki/.data/coverage/$coverage_percent_json_file"
+          echo "::notice:: Added https://github.com/${{ github.repository }}/wiki/.data/coverage/$coverage_profile_raw_file"
+
