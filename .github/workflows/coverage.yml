@@ -59,7 +59,7 @@ jobs:
 
 
           tmp_wiki_dir=$(mktemp -d)
-          git clone "https://github.com/${{ github.repository }}.wiki.git" "$tmp_wiki_dir" --depth 1
+          git clone "https://x:${{ github.token }}@github.com/${{ github.repository }}.wiki.git" "$tmp_wiki_dir" --depth 1
 
           data_dir="${tmp_wiki_dir}/.data"
           coverage_dir="${data_dir}/coverage"
