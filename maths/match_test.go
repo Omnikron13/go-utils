@@ -26,7 +26,7 @@ var tests map[string]any = map[string]any {
 
 // TODO: document/comment this
 // TODO: refactor this to not require the test string - should be able to infer it from the type constraint T
-func testMatrix[T RationalNumber](t *testing.T, test string, f func(t *testing.T, v T)) {
+func testMatrix[T Rational](t *testing.T, test string, f func(t *testing.T, v T)) {
    if v, ok := tests[test].([]T); ok {
       t.Run(test, func(t *testing.T) {
          for _, x := range v {
@@ -36,7 +36,7 @@ func testMatrix[T RationalNumber](t *testing.T, test string, f func(t *testing.T
    }
 }
 
-// TODO: add benchmarkMatrix[T RationalNumber](b *testing.B, test string, f func(b *testing.B, v T))
+// TODO: add benchmarkMatrix[T Rational](b *testing.B, test string, f func(b *testing.B, v T))
 
 // Test_Abs tests `Abs()` outputs against `math.Abs()` outputs.
 func Test_Abs(t *testing.T) {

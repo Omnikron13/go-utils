@@ -3,7 +3,7 @@ package maths
 import "math"
 
 // Cbrt returns the cube root of x.
-func Cbrt[T RationalNumber](n T) float64 {
+func Cbrt[T Rational](n T) float64 {
    return math.Cbrt(float64(n))
 }
 

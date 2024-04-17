@@ -18,6 +18,6 @@ type Float interface { ~float32 | ~float64 }
 // Signed is a type constraint that represents a number that can be positive, negative, or zero.
 type Signed interface { SignedInt | Float }
 
-// RationalNumber is a type constraint that represents a number that can be positive, negative, or zero.
-type RationalNumber interface { Int | Float }
+// Rational is a type constraint that represents a number that can be positive, negative, or zero.
+type Rational interface { Int | Float }
 
