@@ -16,7 +16,7 @@ jobs:
     env:
       commit_hash: "${GITHUB_SHA}"
       commit_hash_short: "$(git rev-parse --short ${GITHUB_SHA})"
-      date_now: "$(date +%Y%m%d%H%M%S)"
+      date_now: "$(date +%Y%m%d%H%M)"
 
     runs-on: 'ubuntu-latest'
 
