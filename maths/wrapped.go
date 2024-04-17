@@ -95,12 +95,12 @@ func Hypot[T1 Rational, T2 Rational, R Float](p T1, q T2) R {
 
 // TODO: test if R can be inferred
 // Inf returns positive infinity if sign >= 0, negative infinity if sign < 0.
-func Inf[T Rational, R Float](sign T) R {
+func Inf[T Signed, R Float](sign T) R {
    return R(math.Inf(int(sign)))
 }
 
 // IsInf reports whether f is an infinity, according to sign.
-func IsInf[T1 Rational, T2 Rational](f T1, sign T2) bool {
+func IsInf[T1 Rational, T2 Signed](f T1, sign T2) bool {
    return math.IsInf(float64(f), int(sign))
 }
 
