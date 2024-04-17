@@ -1,6 +1,8 @@
-// Description: This file contains the wrapped functions from the `math` package.
-// The functions are wrapped to accept any numeric type in place of `float64`.
+// # Description #
+// This file contains the wrapped functions from the `math` package. 
+// The functions are wrapped to accept any numeric type in place of `float64`. 
 // The arguments are simply passed into `float64()` before being passed to the original function.
+
 package maths
 
 import "math"
