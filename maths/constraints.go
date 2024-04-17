@@ -1,8 +1,5 @@
-// maths contains genericised versions of as many of the functions found in the std math package as possible.
-// Due ro quite obvious differeces ub precision between the Int types and float64, additional care should be taken
-// with the most basic versiojs of provided function to enure they return what you want and epect.
-// Wheverer deemed necessary (and possible) additioional functions will be provided that reuire qdditional arguments,
-// return additional data, or error out in one way or another.
+// Description: This file contains type constraints for the maths module.
+
 package maths
 
 
