@@ -12,7 +12,7 @@ const (
    SqrtE   = math.SqrtE
    SqrtPi  = math.SqrtPi
    SqrtPhi = math.SqrtPhi
-   
+
    Ln2    = math.Ln2
    Log2E  = math.Log2E
    Ln10   = math.Ln10
