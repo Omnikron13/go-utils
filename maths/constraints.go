@@ -15,6 +15,9 @@ type Int interface { UnsignedInt | SignedInt }
 // Float is a type constraint that represents a floating-point number.
 type Float interface { ~float32 | ~float64 }
 
+// Unsigned combines `UnsignedInt` with `uintptr`.
+type Unsigned interface { UnsignedInt | ~uintptr }
+
 // Signed is a type constraint that represents a number that can be positive, negative, or zero.
 type Signed interface { SignedInt | Float }
 
