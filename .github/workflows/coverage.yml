@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "staging"
-  pull_request:
-    branches:
-      - "main"
-      - "staging"
 
 jobs:
 
@@ -21,7 +16,7 @@ jobs:
     env:
       commit_hash: "${GITHUB_SHA}"
       commit_hash_short: "$(git rev-parse --short ${GITHUB_SHA})"
-      date_now: "$(date +%Y%m%d%H%M%S)"
+      date_now: "$(date +%Y%m%d%H%M)"
 
     runs-on: 'ubuntu-latest'
 
@@ -35,10 +30,8 @@ jobs:
         run: |
           cd ${{ matrix.mod-dir }}
 
-          date_now="$(date +%Y%m%d%H%M)"
-
-          coverage_percent_json_file="${date_now}-${{ env.commit_hash_short }}.json"
-          coverage_profile_raw_file="${date_now}-${{ env.commit_hash_short }}.profile.raw"
+          coverage_percent_json_file="${{ env.date_now }}-${{ env.commit_hash_short }}.json"
+          coverage_profile_raw_file="${{ env.date_now }}-${{ env.commit_hash_short }}.profile.out"
 
           coverage_percent_raw="$(go test -cover -coverprofile=${coverage_profile_raw_file} ./... | tail -1)"
 
