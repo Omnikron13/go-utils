@@ -2,6 +2,15 @@ package maths
 
 import "math"
 
+// Abs returns the absolute value of x.
+func Abs[T RationalNumber](x T) T {
+   // TODO: handle overflow for min value of signed integers
+   if x >= 0 {
+      return x
+   }
+   return -x
+}
+
 // TODO: Expand this to include additional float types (float16, and perhaps float128/float8 of some kind..?)
 // Mod returns the remainder of x/y.
 func Mod[T RationalNumber](x, y T) T {
