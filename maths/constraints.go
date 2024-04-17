@@ -9,15 +9,15 @@ package maths
 // WholeNumber is a type constraint that represents a whole number that is greater than or equal to zero.
 type WholeNumber interface { uint8 | uint16 | uint32 | uint64 | uint }
 
-// signed is a type constraint that represents a number that can be positive, negative, or zero.
-type signed interface { int8 | int16 | int32 | int64 | int }
+// Signed is a type constraint that represents a number that can be positive, negative, or zero.
+type Signed interface { int8 | int16 | int32 | int64 | int }
 
 // Integer is a type constraint that represents a whole number that can be positive, negative, or zero.
-type Integer interface { WholeNumber | signed }
+type Integer interface { WholeNumber | Signed }
 
 // Float is a type constraint that represents a floating-point number.
-type float interface { float32 | float64 }
+type Float interface { float32 | float64 }
 
 // RationalNumber is a type constraint that represents a number that can be positive, negative, or zero.
-type RationalNumber interface { Integer | float }
+type RationalNumber interface { Integer | Float }
 

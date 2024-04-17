@@ -87,13 +87,13 @@ func Expm1[T RationalNumber](x T) float64 {
 
 // TODO: test if R can be inferred
 // Hypot returns Sqrt(p*p + q*q), taking care to avoid unnecessary overflow and underflow.
-func Hypot[T1 RationalNumber, T2 RationalNumber, R float](p T1, q T2) R {
+func Hypot[T1 RationalNumber, T2 RationalNumber, R Float](p T1, q T2) R {
    return R(math.Hypot(float64(p), float64(q)))
 }
 
 // TODO: test if R can be inferred
 // Inf returns positive infinity if sign >= 0, negative infinity if sign < 0.
-func Inf[T RationalNumber, R float](sign T) R {
+func Inf[T RationalNumber, R Float](sign T) R {
    return R(math.Inf(int(sign)))
 }
 
@@ -124,7 +124,7 @@ func Jn[T1 RationalNumber, T2 RationalNumber](n T1, x T2) float64 {
 
 // TODO: test if R can be inferred
 // NaN returns an IEEE 754 ``not-a-number'' value.
-func NaN[R float]() R {
+func NaN[R Float]() R {
    return R(math.NaN())
 }
 
