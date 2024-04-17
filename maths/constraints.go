@@ -7,16 +7,16 @@ package maths
 
 
 // UnsignedInt is a type constraint that represents a whole number that is greater than or equal to zero.
-type UnsignedInt interface { uint8 | uint16 | uint32 | uint64 | uint }
+type UnsignedInt interface { ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uint }
 
 // SignedInt is a type constraint that represents a number that can be positive, negative, or zero.
-type SignedInt interface { int8 | int16 | int32 | int64 | int }
+type SignedInt interface { ~int8 | ~int16 | ~int32 | ~int64 | ~int }
 
 // Int is a type constraint that represents a whole number that can be positive, negative, or zero.
 type Int interface { UnsignedInt | SignedInt }
 
 // Float is a type constraint that represents a floating-point number.
-type Float interface { float32 | float64 }
+type Float interface { ~float32 | ~float64 }
 
 // Signed is a type constraint that represents a number that can be positive, negative, or zero.
 type Signed interface { SignedInt | Float }
