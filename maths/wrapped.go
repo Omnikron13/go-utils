@@ -42,6 +42,13 @@ func Atanh[T Rational](x T) float64 {
    return math.Atanh(float64(x))
 }
 
+// Cbrt returns the cube root of x.
+func Cbrt[T Rational](n T) float64 {
+   return math.Cbrt(float64(n))
+}
+// TODO: Add additional functions that return the same type given as the input.
+//       They could be named e.g. CbrtFloor, CbrtCeil, CbrtRound, etc.
+
 // Cos returns the cosine of the radian argument x.
 func Cos[T Rational](x T) float64 {
    return math.Cos(float64(x))
@@ -91,6 +98,11 @@ func Expm1[T Rational](x T) float64 {
 // Hypot returns Sqrt(p*p + q*q), taking care to avoid unnecessary overflow and underflow.
 func Hypot[T1 Rational, T2 Rational, R Float](p T1, q T2) R {
    return R(math.Hypot(float64(p), float64(q)))
+}
+
+// Ilogb returns the binary exponent of x as an int.
+func Ilogb[T Rational](x T) int {
+   return math.Ilogb(float64(x))
 }
 
 // TODO: test if R can be inferred
@@ -170,6 +182,13 @@ func Sincos[T Rational](x T) (float64, float64) {
 func Sinh[T Rational](x T) float64 {
    return math.Sinh(float64(x))
 }
+
+// Sqrt returns the square root of a number.
+func Sqrt[T Rational](n T) float64 {
+   return math.Sqrt(float64(n))
+}
+// TODO: Add additional functions that return the same type given as the input.
+//       They could be named e.g. SqrtFloor, SqrtCeil, SqrtRound, etc.
 
 // Tan returns the tangent of the radian argument x.
 func Tan[T Rational](x T) float64 {
