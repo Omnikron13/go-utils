@@ -11,6 +11,11 @@ func Abs[T Rational](x T) T {
    return -x
 }
 
+// Copysign returns a value with the magnitude of x and the sign of sign.
+func Copysign[T Signed](x, sign T) T {
+   return T(math.Copysign(float64(x), float64(sign)))
+}
+
 // Max returns the larger of x or y.
 func Max[T Rational](x, y T) T {
    return max(x, y)
