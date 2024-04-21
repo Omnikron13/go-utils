@@ -21,9 +21,35 @@ func Copysign[T Signed](x, sign T) T {
    return T(math.Copysign(float64(x), float64(sign)))
 }
 
+// Dim returns the maximum of x-y or 0.
+func Dim[T Rational](x, y T) T {
+   return T(math.Dim(float64(x), float64(y)))
+}
+
 // Floor returns the greatest integer value less than or equal to x.
 func Floor[T Float](x T) T {
    return T(math.Floor(float64(x)))
+}
+
+// Frexp breaks f into a normalized fraction
+// and an integral power of two.
+// It returns frac and exp satisfying f == frac × 2**exp,
+// with the absolute value of frac in the interval [½, 1).
+func Frexp[T Float](f T) (T, int) {
+   // TODO: test and determine if it is at all advisable to do this for float32?
+   frac, exp := math.Frexp(float64(f))
+   return T(frac), exp
+}
+
+// Gamma returns the Gamma function of x.
+func Gamma[T Float](x T) T {
+   return T(math.Gamma(float64(x)))
+}
+
+// Lgamma returns the natural logarithm and sign (-1 or +1) of [Gamma](x).
+func Lgamma[T Float](x T) (T, int) {
+   lg, sign := math.Lgamma(float64(x))
+   return T(lg), sign
 }
 
 // Log returns the natural logarithm of x.
@@ -49,6 +75,12 @@ func Log2[T Rational](x T) T {
 // Logb returns the binary exponent of x.
 func Logb[T Rational](x T) T {
    return T(math.Logb(float64(x)))
+}
+
+// Ldexp is the inverse of [Frexp].
+// It returns frac × 2**exp.
+func Ldexp[T Float](frac T, exp int) T {
+   return T(math.Ldexp(float64(frac), exp))
 }
 
 // Remainder returns the IEEE 754 floating-point remainder of x/y.
