@@ -124,4 +124,3 @@ func Modf[T Rational](f T) (T, T) {
    int, frac := math.Modf(float64(f))
    return T(int), T(frac)
 }
-
